@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Administração — SD Descontos</title>
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="topo-int">
+      <a class="marca" href="./">
+        <span class="marca-logo" aria-hidden="true">SD</span>
+        <span><span class="marca-nome">SD Descontos</span><span class="marca-sub">Área administrativa</span></span>
+      </a>
+      <div class="topo-dir">
+        <a class="botao pequeno" href="./">← Ver painel público</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Situação dos dados -->
+    <section class="cartao">
+      <div class="cartao-topo">
+        <div>
+          <h2>Situação dos dados</h2>
+          <p class="cartao-sub" id="fonteDados">Carregando…</p>
+        </div>
+        <div class="acoes">
+          <a class="botao" href="index.html?previa=1" target="_blank" rel="noopener">Pré-visualizar painel</a>
+          <button type="button" class="botao primario" id="bBaixar">Baixar dados.json</button>
+        </div>
+      </div>
+      <div id="avisosDados"></div>
+      <div class="numeros" id="numerosDados"></div>
+      <div class="acoes">
+        <label class="botao pequeno" for="iJson">Abrir dados.json do computador</label>
+        <input type="file" id="iJson" accept=".json,application/json" class="sr">
+        <button type="button" class="botao pequeno perigo oculto" id="bDescartar">Descartar alterações não publicadas</button>
+      </div>
+    </section>
+
+    <!-- Importação -->
+    <section class="secao cartao">
+      <div class="cartao-topo">
+        <div>
+          <h2>Importar relatórios</h2>
+          <p class="cartao-sub">CSV ou Excel (.xlsx) baixados da Shopee, Amazon ou Mercado Livre. Os arquivos são lidos apenas neste navegador — nada é enviado para a internet.</p>
+        </div>
+        <label class="campo"><span>Plataforma</span>
+          <select id="fPlataforma">
+            <option value="">Identificar automaticamente</option>
+            <option value="shopee">Shopee</option>
+            <option value="amazon">Amazon</option>
+            <option value="mercadolivre">Mercado Livre</option>
+          </select>
+        </label>
+      </div>
+      <label class="zona" id="zona" for="iArquivos">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--marca-2)"><path d="M12 16V4M7 9l5-5 5 5M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
+        <strong>Arraste os relatórios aqui ou clique para escolher</strong>
+        <p>Você pode enviar vários arquivos de uma vez. Antes de importar, o sistema mostra um resumo para conferência.</p>
+      </label>
+      <input type="file" id="iArquivos" accept=".csv,.xlsx,.tsv,.txt,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" multiple class="sr">
+      <div id="previas"></div>
+    </section>
+
+    <!-- Histórico de importações -->
+    <section class="secao cartao">
+      <div class="cartao-topo"><div>
+        <h2>Arquivos processados</h2>
+        <p class="cartao-sub">Histórico de importações incluídas nos dados atuais</p>
+      </div></div>
+      <div class="tabela-env"><table id="tImportacoes"></table></div>
+    </section>
+
+    <!-- Como publicar -->
+    <section class="secao cartao">
+      <h2>Como publicar a atualização no painel público</h2>
+      <ol class="passos" style="margin-top:10px">
+        <li>Importe os relatórios acima e confira o resumo de cada arquivo.</li>
+        <li>Clique em <strong>Pré-visualizar painel</strong> para ver como ficará.</li>
+        <li>Clique em <strong>Baixar dados.json</strong>.</li>
+        <li>No GitHub, abra a pasta <code>data</code> do repositório, clique em <strong>Add file → Upload files</strong>, envie o <code>dados.json</code> baixado (ele substitui o anterior) e clique em <strong>Commit changes</strong>.</li>
+        <li>Em 1 a 2 minutos o GitHub Pages publica a nova versão e o painel carrega os dados atualizados.</li>
+      </ol>
+      <p class="nota-nd">O arquivo publicado contém apenas os valores necessários ao painel (data, plataforma, valores, comissões, quantidade e status). Números de pedido são substituídos por códigos irreversíveis, e nomes de produtos, lojas e compradores não são incluídos. Os relatórios originais nunca são publicados.</p>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <span>SD Descontos · Área administrativa</span>
+    <a href="./">Painel público</a>
+  </footer>
+
+  <script src="js/util.js"></script>
+  <script src="js/leitores.js"></script>
+  <script src="js/plataformas.js"></script>
+  <script src="js/dados.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

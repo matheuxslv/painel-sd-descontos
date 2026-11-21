@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SD Descontos — Painel de Resultados</title>
+  <meta name="description" content="Painel de resultados da SD Descontos: vendas, pedidos e comissões nas plataformas Shopee, Amazon e Mercado Livre.">
+  <meta name="theme-color" content="#0f2a4a">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="topo-int">
+      <a class="marca" href="./">
+        <span class="marca-logo" aria-hidden="true">SD</span>
+        <span><span class="marca-nome">SD Descontos</span><span class="marca-sub">Painel de resultados</span></span>
+      </a>
+      <div class="topo-dir">
+        <span id="ultimaAtualizacao" class="atualizacao sem">Carregando dados…</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div id="avisoPrevia" class="aviso alerta oculto" role="status">
+      <span>Pré-visualização com os dados importados neste navegador (ainda <strong>não publicados</strong>). <a href="admin.html">Voltar à área administrativa</a></span>
+    </div>
+    <div id="avisoErro" class="aviso erro oculto" role="alert"></div>
+
+    <!-- Estado vazio -->
+    <section id="estadoVazio" class="cartao vazio oculto">
+      <span class="vazio-icone" aria-hidden="true">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 19V5M4 19h16M8 15l3-4 3 2 5-6"/></svg>
+      </span>
+      <h2>Nenhum resultado publicado ainda</h2>
+      <p>Os indicadores aparecem aqui assim que os relatórios da Shopee, Amazon ou Mercado Livre forem importados na área administrativa e o arquivo de dados for publicado.</p>
+      <a class="botao primario" href="admin.html">Ir para a área administrativa</a>
+    </section>
+
+    <div id="conteudo" class="oculto">
+      <!-- Filtros -->
+      <section class="cartao" aria-label="Filtros">
+        <div class="filtros">
+          <label class="campo"><span>Período</span>
+            <select id="fPeriodo">
+              <option value="tudo">Todo o período</option>
+              <option value="7">Últimos 7 dias</option>
+              <option value="30">Últimos 30 dias</option>
+              <option value="mes">Este mês</option>
+              <option value="mesAnterior">Mês anterior</option>
+              <option value="90">Últimos 90 dias</option>
+              <option value="ano">Este ano</option>
+              <option value="personalizado">Personalizado…</option>
+            </select>
+          </label>
+          <label class="campo oculto" id="cDe"><span>De</span><input type="date" id="fDe"></label>
+          <label class="campo oculto" id="cAte"><span>Até</span><input type="date" id="fAte"></label>
+          <label class="campo"><span>Comparar com</span>
+            <select id="fComparar">
+              <option value="anterior">Período anterior</option>
+              <option value="ano">Mesmo período do ano anterior</option>
+              <option value="nao">Não comparar</option>
+            </select>
+          </label>
+          <div class="campo"><span>Plataforma</span>
+            <div class="segmentado" id="fPlataforma" role="group" aria-label="Plataforma"></div>
+          </div>
+        </div>
+        <div class="periodo-texto" id="periodoTexto"></div>
+      </section>
+
+      <!-- Indicadores -->
+      <section class="secao kpis" id="kpis" aria-label="Indicadores principais"></section>
+
+      <!-- Evolução -->
+      <section class="secao cartao">
+        <div class="cartao-topo">
+          <div>
+            <h2>Evolução dos resultados</h2>
+            <p class="cartao-sub" id="evolucaoSub"></p>
+          </div>
+          <div class="acoes">
+            <div class="segmentado" id="fMetrica" role="group" aria-label="Indicador do gráfico"></div>
+            <div class="segmentado" id="fGranularidade" role="group" aria-label="Agrupamento">
+              <button type="button" data-v="dia">Dia</button><button type="button" data-v="mes">Mês</button>
+            </div>
+          </div>
+        </div>
+        <div class="grafico" id="gEvolucao"></div>
+      </section>
+
+      <!-- Comparativo e distribuição -->
+      <div class="secao grade-2">
+        <section class="cartao">
+          <div class="cartao-topo"><div>
+            <h2>Comparativo entre plataformas</h2>
+            <p class="cartao-sub">Todas as plataformas no período selecionado</p>
+          </div></div>
+          <div class="comparativo">
+            <div><h3>Faturamento em vendas</h3><div id="gCompVendas"></div></div>
+            <div><h3>Comissões</h3><div id="gCompComissoes"></div></div>
+            <div><h3>Pedidos</h3><div id="gCompPedidos"></div></div>
+          </div>
+        </section>
+        <section class="cartao">
+          <div class="cartao-topo"><div>
+            <h2>Distribuição das comissões</h2>
+            <p class="cartao-sub">Participação de cada plataforma no período</p>
+          </div></div>
+          <div id="gRosca"></div>
+        </section>
+      </div>
+
+      <!-- Desempenho por plataforma -->
+      <section class="secao cartao">
+        <div class="cartao-topo"><div>
+          <h2>Desempenho por plataforma</h2>
+          <p class="cartao-sub">Período selecionado</p>
+        </div></div>
+        <div class="tabela-env"><table id="tPlataformas"></table></div>
+        <p class="nota-nd" id="notaPlataformas"></p>
+      </section>
+
+      <!-- Histórico -->
+      <section class="secao cartao">
+        <div class="cartao-topo">
+          <div>
+            <h2>Histórico de resultados</h2>
+            <p class="cartao-sub">Clique em uma linha para ver aquele período no painel</p>
+          </div>
+          <div class="segmentado" id="fHistorico" role="group" aria-label="Agrupar histórico">
+            <button type="button" data-v="mes" aria-pressed="true">Por mês</button><button type="button" data-v="dia" aria-pressed="false">Por dia</button>
+          </div>
+        </div>
+        <div class="tabela-env"><table id="tHistorico"></table></div>
+        <div style="text-align:center;margin-top:12px"><button type="button" class="botao pequeno oculto" id="bMaisHistorico">Mostrar tudo</button></div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="rodape">
+    <span>© <span id="ano"></span> SD Descontos · Resultados com base nos relatórios oficiais das plataformas de afiliados.</span>
+    <a href="admin.html">Área administrativa</a>
+  </footer>
+
+  <script src="js/util.js"></script>
+  <script src="js/plataformas.js"></script>
+  <script src="js/dados.js"></script>
+  <script src="js/graficos.js"></script>
+  <script src="js/painel.js"></script>
+</body>
+</html>
